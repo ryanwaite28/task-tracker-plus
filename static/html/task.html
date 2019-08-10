@@ -1,0 +1,68 @@
+<div class="ui message task_message_box" id="task_(( $ctrl.task.unique_value ))">
+  <h3>
+    (( $ctrl.task.text ))
+    <span class="text-grey">
+      <small>(( $ctrl.task.done ? "(Completed)" : "" ))</small>
+    </span>
+  </h3>
+  
+  <p class="task-text">
+    <span class="">
+      <small>Sub Tasks: (( $ctrl.task.subtasks.length ))</small>
+    </span>
+    <span class="float-right">
+      <strong>Created:</strong> (( $ctrl.date_created_str ))
+      <span ng-if="$ctrl.task.due_date">
+        <br/>
+        <strong>Due:</strong> (( $ctrl.date_due_str ))
+        <span class="text-grey" ng-if="$ctrl.isLate">
+          <br/>
+          <small><strong>late!</strong></small>
+        </span>
+      </span>
+    </span>
+  </p>
+
+  <p class="task-text">
+    <div class="">
+      <div class="" ng-click="$ctrl.toggle_task_done()">
+        <input 
+          type="checkbox" 
+          tabindex="0" 
+          class=""
+          ng-checked="(( $ctrl.isTaskDone ))" />
+        <label>Done</label>
+      </div>
+    </div>
+  </p>
+  <p class="task-text">
+    <button
+       class="ui labeled basic negative icon button" 
+       title="Delete this task: (( $ctrl.task.text ))" 
+       ng-click="$ctrl.delete_task()">
+      <i class="times circle outline icon"></i> Delete
+    </button>
+
+    <button 
+      class="ui labeled basic primary icon button" 
+      title="Edit this task: (( $ctrl.task.text ))" 
+      ng-click="$ctrl.edit_task()">
+      <i class="edit outline icon"></i> Edit
+    </button>
+
+    <button 
+      class="ui labeled basic positive icon button" 
+      title="Create sub task for: (( $ctrl.task.text ))" 
+      ng-click="$ctrl.create_subtask()">
+      <i class="plus square outline icon"></i> Create Subtask
+    </button>
+
+    <button 
+      class="ui labeled basic black icon button" 
+      title="Create sub task for: (( $ctrl.task.text ))" 
+      ng-if="!!$ctrl.task.subtasks.length"
+      ng-click="$ctrl.see_subtasks()">
+      <i class="level down alternate icon"></i> See Subtasks
+    </button>
+  </p>
+</div>

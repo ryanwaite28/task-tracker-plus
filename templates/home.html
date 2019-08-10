@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% include 'includes/_depends.html' %}
+
+    <title>Task Tracker Plus | Home!</title>
+  </head>
+  <body ng-app="App" ng-controller="home-ctrl">
+
+
+    {% if signed_in %}
+      {% include 'includes/navbar-signedin.html' %}
+    {% else %}
+      {% include 'includes/navbar-signedout.html' %}
+    {% endif %}
+
+    <!--  -->
+
+    <main class="container">
+      <section class="">
+        <div class="middlr box-s1 middle-box">
+          <h1 class="text-center">Hi (( you.displayname ))!</h1>
+          <br/>
+          <img class="polaroid portrait-xs" src="(( you.icon ))" alt="(( you.displayname )) icon">
+
+          <p class="text-center">
+            <button class="ui labeled basic primary icon button" ng-click="toggle_editing_account()">
+              <i class="edit outline icon"></i> Edit Account
+            </button>
+          </p>
+
+          <div ng-if="editingAccount">
+            <div class="middlr">
+              <form class="ui form">
+                <div class="field">
+                  <label>Display Name</label>
+                  <input type="text" ng-model="displayname_input" placeholder="Display Name">
+                </div>
+                <div class="field">
+                  <label>Email Address</label>
+                  <input type="text" ng-model="email_input" placeholder="Email Address">
+                </div>
+                <button class="ui button action-item" type="submit" ng-click="update_account()" ng-disabled="!check_account_changes()">Submit</button>
+              </form>
+              <hr/>
+              <form class="ui form">
+                <div class="field">
+                  <label>Old Password</label>
+                  <input type="password" ng-model="oldpassword_input" placeholder="Old Password">
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input type="password" ng-model="password_input" placeholder="New Password">
+                </div>
+                <div class="field">
+                  <label>Confirm Password</label>
+                  <input type="password" ng-model="confirmpassword_input" placeholder="Confirm New Password">
+                </div>
+                <button class="ui button action-item" type="submit" ng-click="update_password()" ng-disabled="!check_password_changes()">Submit</button>
+              </form>
+              <hr/>
+              <form class="ui form">
+                <div class="field">
+                  <label>Change Icon</label>
+                  <input id="icon_file_input" type="file" name="icon_file" accept="image/*">
+                </div>
+                <br/>
+                <button class="ui button action-item" type="submit" ng-click="update_icon()">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="create_task_box" class="">
+        <div class="middlr box-s1 middle-box">
+          <h3 class="text-center">(( getTaskFormHeading() ))</h3>
+          <br/>
+          <form class="ui form">
+            <div class="field">
+              <label>Task name</label>
+              <input type="text" ng-model="taskname_input" placeholder="Task name">
+            </div>
+            <div class="field">
+              <label>Task Due Date</label>
+              <input id="new_task_date_input" type="date" ng-model="taskduedate_input">
+            </div>
+            <button class="ui button action-item" type="submit" ng-if="!isEditingTask && !isCreatingSubTask" ng-click="create_task()" ng-disabled="!taskname_input">Submit</button>
+
+            <button class="ui button action-item" type="submit" ng-if="isEditingTask" ng-click="submit_edit_task()" ng-disabled="!check_edits_changes()">Submit</button>
+            <button class="ui button action-item" type="submit" ng-if="isEditingTask" ng-click="cancel_edit()">Cancel</button>
+
+            <button class="ui button action-item" type="submit" ng-if="isCreatingSubTask" ng-click="create_task()" ng-disabled="!taskname_input">Submit</button>
+            <button class="ui button action-item" type="submit" ng-if="isCreatingSubTask" ng-click="cancel_subtask()">Cancel</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="tasks-container">
+        <div class="middlr box-s1 middle-box">
+          <h3 class="text-center">(( getTaskTestHeading() ))<br/>(( getTaskLengthHeading() ))</h3>
+          <div class="text-center" ng-if="!!taskStack.length">
+            <button 
+              class="ui labeled basic black icon button" 
+              ng-click="stack_set_previous()">
+              <i class="level up alternate icon"></i> Go Back
+            </button>
+          </div>
+          <hr/>
+
+          <div class="">
+            <div class=" text-center">
+              <label style="display: block;">Filter Tasks</label>
+              <br/>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.ALL" ng-change="apply_tasks_filter()">
+                  <label>All</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.DONE" ng-change="apply_tasks_filter()">
+                  <label>Done</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.NOT_DONE" ng-change="apply_tasks_filter()">
+                  <label>Not Done</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.LATE" ng-change="apply_tasks_filter()">
+                  <label>Late</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.DUE_TODAY" ng-change="apply_tasks_filter()">
+                  <label>Due Today</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.ON_TIME" ng-change="apply_tasks_filter()">
+                  <label>On Time</label>
+                </div>
+              </div>
+              <div class="" style="padding: 0px 10px; display: inline-block;">
+                <div class="--">
+                  <input type="radio" ng-model="currentFilter" ng-value="filters.NO_DUE_DATE" ng-change="apply_tasks_filter()">
+                  <label>No Due Date</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr/>
+          <task
+            ng-repeat="task in tasks_filtered"
+            task="task"
+            edit="edit_task(task)"
+            create-subtask="create_sub_task(task)"
+            delete="delete_task(task)"
+            toggle="toggle_task_done(task)"
+            see-subtasks="see_subtasks(task)"
+          ></task>
+          <br/>
+          <p class="text-center" ng-if="!taskStack.length && !taskListEnd">
+            <button 
+              class="ui labeled basic positive icon button"
+              ng-click="loadMoreTasks()">
+              <i class="sync icon"></i> Load More
+            </button>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/js/controllers/home-ctrl.js"></script>
+
+    <!--  -->
+
+    <!-- {% include 'includes/footer.html' %} -->
+
+  </body>
+</html>

@@ -1,0 +1,4 @@
+
+<span class="float-right">
+  <small>(</small><small>(( $ctrl.task.subtasks_len )) Subtasks</small><small>)</small>
+</span>

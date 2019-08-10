@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% include 'includes/_depends.html' %}
+
+    <title>Task Tracker Plus | Sign Up!</title>
+  </head>
+  <body ng-app="App" ng-controller="signup-ctrl">
+
+
+    {% if signed_in %}
+      {% include 'includes/navbar-signedin.html' %}
+    {% else %}
+      {% include 'includes/navbar-signedout.html' %}
+    {% endif %}
+
+    <!--  -->
+
+    <main class="container">
+      <section class="row-bar">
+        <div class="middlr box-s1 middle-box">
+          <h1 class="text-center">Sign Up</h1>
+          <br/>
+          <form class="ui form">
+            <div class="field">
+              <label>Display Name</label>
+              <input type="text" ng-model="displayname_input" placeholder="Display Name">
+            </div>
+            <div class="field">
+              <label>Email Address</label>
+              <input type="text" ng-model="email_input" placeholder="Email Address">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input type="password" ng-model="password_input" placeholder="Password">
+            </div>
+            <div class="field">
+              <label>Confirm Password</label>
+              <input type="password" ng-model="confirmpassword_input" placeholder="Confirm Password">
+            </div>
+            <button class="ui button action-item" type="submit" ng-click="sign_up()">Submit</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/js/controllers/signup-ctrl.js"></script>
+
+    <!--  -->
+
+    {% include 'includes/footer.html' %}
+
+  </body>
+</html>

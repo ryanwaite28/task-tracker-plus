@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% include 'includes/_depends.html' %}
+
+    <title>Task Tracker Plus | Account!</title>
+  </head>
+  <body ng-app="App" ng-controller="account-ctrl">
+
+
+    {% if signed_in %}
+      {% include 'includes/navbar-signedin.html' %}
+    {% else %}
+      {% include 'includes/navbar-signedout.html' %}
+    {% endif %}
+
+    <!--  -->
+
+    <main class="container">
+      <section class="row-bar">
+        <div class="middlr box-s1 middle-box">
+          <h1 class="text-center">Hi (( you.displayname ))!</h1>
+          <br/>
+
+        </div>
+      </section>
+
+      <section class="row-bar">
+        <div class="middlr box-s1 middle-box">
+
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/js/controllers/account-ctrl.js"></script>
+
+    <!--  -->
+
+    {% include 'includes/footer.html' %}
+
+  </body>
+</html>

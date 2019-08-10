@@ -1,0 +1,36 @@
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+
+<link rel="icon" href="/static/img/to-do-list.png">
+<link rel="stylesheet" href="/static/_bin/semantic-ui/semantic.min.css">
+<link rel="stylesheet" href="/static/css/styles.css">
+
+<script src="/static/_bin/js/angular.min.js"></script>
+<script src="/static/_bin/js/angular-resource.min.js"></script>
+<script src="/static/_bin/js/jquery.min.js"></script>
+<script src="/static/_bin/js/parallax.min.js"></script>
+<script src="/static/_bin/js/moment.js"></script>
+<script src="/static/_bin/semantic-ui/semantic.min.js"></script>
+
+<script src="/static/js/app.js"></script>
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/http-request.js"></script>
+
+<script src="/static/js/components/task.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $('body').append('<div id="notify_container">');
+
+    $('.parallax-window').parallax();
+
+    $(document).on('click', '.message .close', function() {
+      $(this).closest('.message').transition('fade');
+    });
+
+    $('.ui.checkbox').checkbox();
+
+    /**/
+  });
+</script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% include 'includes/_depends.html' %}
+
+    <title>Task Tracker Plus | Welcome!</title>
+  </head>
+  <body>
+
+
+    {% if signed_in %}
+      {% include 'includes/navbar-signedin.html' %}
+    {% else %}
+      {% include 'includes/navbar-signedout.html' %}
+    {% endif %}
+
+    <!--  -->
+
+    <header class="fill parallax-window transition pos-rel" id="welcome_header" data-parallax="scroll" data-image-src="/static/img/blue-gradient-background.png">
+      <div class="dim-2"></div>
+      <div class="pos-rel">
+        <img id="welcome_app_icon" class="middlr" src="/static/img/to-do-list.png" alt="Task Tracker Plus icon">
+        <h1 id="header_text" class="text-center">A To-Do List, but a little better!</h1>
+      </div>
+    </header>
+
+
+    <main>
+      <section class="row-bar text-center">
+        <h2><strong>Stay on top of things!</strong></h2>
+        <p>
+          Create Tasks with due dates!
+        </p>
+        <p>
+
+        </p>
+      </section>
+    </main>
+
+    <script src="/static/js/controllers/welcome-ctrl.js"></script>
+
+    <!--  -->
+
+    {% include 'includes/footer.html' %}
+
+  </body>
+</html>
